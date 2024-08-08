@@ -1,0 +1,8 @@
+[build]
+  command = "pip install -r requirements.txt"
+
+[start]
+  command = "python auto.py"
+
+[dependencies]
+  packages = ["libgl1-mesa-glx", "libglib2.0-0"]
