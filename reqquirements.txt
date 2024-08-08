@@ -1,0 +1,11 @@
+selenium
+webdriver-manager
+Pillow
+requests
+opencv-python
+numpy
+mltu  # Replace with the actual version if available
+python-telegram-bot
+flask
+keras
+tensorflow
