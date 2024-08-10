@@ -27,6 +27,10 @@ RUN CHROMEDRIVER_VERSION=$(wget -q -O - https://chromedriver.storage.googleapis.
     chmod +x /usr/local/bin/chromedriver && \
     rm chromedriver_linux64.zip
 
+# Verify Chrome installation
+RUN which google-chrome-stable
+RUN google-chrome-stable --version
+
 # Set working directory
 WORKDIR /app
 

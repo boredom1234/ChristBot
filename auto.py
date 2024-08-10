@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 from PIL import Image
 import requests
 import io
@@ -15,6 +16,13 @@ import time
 from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
 import asyncio
+
+# Set the path to the Chrome binary
+chrome_options = Options()
+chrome_options.binary_location = "/usr/bin/google-chrome-stable"  # Path where Chrome is installed
+
+# Initialize the Chrome driver with the specified options
+driver = webdriver.Chrome(service=ChromeService(executable_path='/usr/local/bin/chromedriver'), options=chrome_options)
 
 # Define your CAPTCHA-solving model class
 class ImageToWordModel(OnnxInferenceModel):
