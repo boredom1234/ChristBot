@@ -20,6 +20,9 @@ import asyncio
 # Set the path to the Chrome binary
 chrome_options = Options()
 chrome_options.binary_location = "/usr/bin/google-chrome-stable"  # Path where Chrome is installed
+chrome_options.add_argument("--headless")  # Run Chrome in headless mode
+chrome_options.add_argument("--no-sandbox")  # Disable sandbox for Docker
+chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems in Docker
 
 # Initialize the Chrome driver with the specified options
 driver = webdriver.Chrome(service=ChromeService(executable_path='/usr/local/bin/chromedriver'), options=chrome_options)
@@ -67,7 +70,7 @@ def capture_captcha_image(driver, xpath):
         captcha_element = WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.XPATH, xpath))
         )
-        time.sleep(5)
+        await asyncio.sleep(5)
         
         captcha_image_url = captcha_element.get_attribute('src')
         print(f"Captcha image URL: {captcha_image_url}")
@@ -85,7 +88,7 @@ def capture_captcha_image(driver, xpath):
                     return image_path
                 else:
                     print(f"Failed to retrieve captcha image. Status code: {response.status_code}")
-                    time.sleep(2)
+                    await asyncio.sleep(2)
         else:
             print("Captcha image URL is empty.")
     except Exception as e:
@@ -169,7 +172,7 @@ async def run(update: Update, context: CallbackContext):
         await update.message.reply_text(f"An error occurred: {e}")
 
 def main():
-    TOKEN = '7302160357:AAFy35WO6Jc95tOhLqRua1d0icVMzatI5dk'
+    TOKEN = '7302160357:AAFy35WO6Jc95tOhLqRua1d0icVMzatI5dk'  # Replace with your token
     
     application = Application.builder().token(TOKEN).build()
     
