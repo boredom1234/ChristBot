@@ -6,6 +6,10 @@ RUN apt-get update && \
     apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
+    libnss3 \
+    libgconf-2-4 \
+    libxslt1.1 \
+    libgtk-3-0 \
     wget \
     unzip \
     && rm -rf /var/lib/apt/lists/*
@@ -32,6 +36,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code into the container
 COPY . .
+
+# Verify chromedriver installation
+RUN chromedriver --version
 
 # Command to run the application
 CMD ["python", "auto.py"]
