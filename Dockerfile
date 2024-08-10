@@ -7,13 +7,15 @@ WORKDIR /app
 # Copy the requirements file into the container
 COPY requirements.txt .
 
-# Install dependencies
+# Update package list and install dependencies
 RUN apt-get update && \
-    apt-get install -y \
-    libgl1-mesa-glx \
-    libglib2.0-0 && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip install --no-cache-dir -r requirements.txt
+    apt-get install -y libgl1-mesa-glx libglib2.0-0
+
+# Clean up apt cache
+RUN rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container
 COPY . .
@@ -21,5 +23,8 @@ COPY . .
 # Expose any ports the app runs on
 EXPOSE 8080
 
+# Define environment variables
+ENV TOKEN=${TOKEN}
+
 # Command to run the application
-CMD ["python", "your_script.py"]
+CMD ["python", "auto.py"]
