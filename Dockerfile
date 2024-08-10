@@ -7,15 +7,13 @@ WORKDIR /app
 # Copy the requirements file into the container
 COPY requirements.txt .
 
-# Update package list and install dependencies
+# Update package list and install system dependencies
 RUN apt-get update && \
-    apt-get install -y libgl1-mesa-glx libglib2.0-0
-
-# Clean up apt cache
-RUN rm -rf /var/lib/apt/lists/*
+    apt-get install -y libgl1-mesa-glx libglib2.0-0 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt --verbose
 
 # Copy the rest of the application code into the container
 COPY . .
