@@ -1,11 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 from PIL import Image
-import asyncio
 import requests
 import io
 import cv2
@@ -14,9 +12,9 @@ from mltu.inferenceModel import OnnxInferenceModel
 from mltu.utils.text_utils import ctc_decoder
 from mltu.configs import BaseModelConfigs
 import time
-import os
 from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
+import asyncio
 
 # Define your CAPTCHA-solving model class
 class ImageToWordModel(OnnxInferenceModel):
@@ -122,7 +120,7 @@ async def run(update: Update, context: CallbackContext):
         with open(f'credentials_{user_id}.txt', 'r') as f:
             username, password = f.read().strip().split('\n')
 
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        driver = webdriver.Chrome(service=ChromeService(executable_path='/usr/local/bin/chromedriver'))
         driver.set_window_size(1059, 772)
         driver.get("https://kp.christuniversity.in/KnowledgePro/StudentLogin.do")
         await asyncio.sleep(3)
