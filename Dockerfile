@@ -1,20 +1,25 @@
+# Use the official Python image from the Docker Hub
 FROM python:3.11
 
-# Install necessary system packages
-RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy requirements and install
+# Copy the requirements file into the container
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code into the container
 COPY . .
 
-# Set the start command
-CMD ["python", "auto.py"]
+# Expose any ports the app runs on
+EXPOSE 8080
+
+# Command to run the application
+CMD ["python", "your_script.py"]
