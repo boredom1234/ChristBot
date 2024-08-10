@@ -1,5 +1,5 @@
 # Use the official Python base image
-FROM python:3.11
+FROM python:3.11-slim
 
 # Install system dependencies
 RUN apt-get update && \
@@ -10,14 +10,14 @@ RUN apt-get update && \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and install Google Chrome
+# Install Google Chrome
 RUN wget -q --show-progress https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     dpkg -i google-chrome-stable_current_amd64.deb || apt-get -f install -y && \
     rm google-chrome-stable_current_amd64.deb
 
-# Download and install ChromeDriver
-RUN LATEST_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
-    wget -q https://chromedriver.storage.googleapis.com/$LATEST_VERSION/chromedriver_linux64.zip && \
+# Install ChromeDriver
+RUN CHROMEDRIVER_VERSION=$(wget -q -O - https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
+    wget -q https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip && \
     unzip -q chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
