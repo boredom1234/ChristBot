@@ -10,6 +10,13 @@ RUN apt-get update && \
     libgconf-2-4 \
     libxslt1.1 \
     libgtk-3-0 \
+    fonts-liberation \
+    libasound2 \
+    libcurl4 \
+    libgbm1 \
+    libu2f-udev \
+    libvulkan1 \
+    xdg-utils \
     wget \
     unzip \
     && rm -rf /var/lib/apt/lists/*
@@ -26,10 +33,6 @@ RUN CHROMEDRIVER_VERSION=$(wget -q -O - https://chromedriver.storage.googleapis.
     mv chromedriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm chromedriver_linux64.zip
-
-# Verify Chrome installation
-RUN which google-chrome-stable
-RUN google-chrome-stable --version
 
 # Set working directory
 WORKDIR /app
