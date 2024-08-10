@@ -10,6 +10,11 @@ RUN apt-get update && \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get install -y libglib2.0-0=2.50.3-2 \
+    libnss3=2:3.26.2-1.1+deb9u1 \
+    libgconf-2-4=3.2.6-4+b1 \
+    libfontconfig1=2.11.0-6.7+b1
+    
 # Install Google Chrome
 RUN wget -q --show-progress https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     dpkg -i google-chrome-stable_current_amd64.deb || apt-get -f install -y && \
